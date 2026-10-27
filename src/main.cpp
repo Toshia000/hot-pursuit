@@ -162,6 +162,8 @@ class Enemy {
             if(sprite.y() >= player.sprite.y()) {
                 sprite.set_y(sprite.y() - speed);
             }
+
+            bounding_box = create_bounding_box(sprite, size);
         }
 };
 
