@@ -129,6 +129,24 @@ class Player {
             if(bn::keypad::down_held()) {
                 sprite.set_y(sprite.y() + speed);
             }
+            // Ensure player will not go off the screen
+            int min_x = MIN_X + size.width() / 2;
+            int max_x = MAX_X - size.width() / 2;
+            int min_y = MIN_Y + size.height() / 2;
+            int max_y = MAX_Y - size.height() / 2;
+
+            if(sprite.x() < min_x) {
+                sprite.set_x(min_x);
+            }
+            if(sprite.x() > max_x) {
+                sprite.set_x(max_x);
+            }
+            if(sprite.y() < min_y) {
+                sprite.set_y(min_y);
+            }
+            if(sprite.y() > max_y) {
+                sprite.set_y(max_y);
+            }
 
             bounding_box = create_bounding_box(sprite, size);
         }
