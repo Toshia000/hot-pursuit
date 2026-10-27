@@ -106,11 +106,11 @@ class Player {
         bn::size size; // The width and height of the sprite
         bn::rect bounding_box; // The rectangle around the sprite for checking collision
 
-        Player(bn::fixed start_x, bn::fixed start_y, bn::fixed start_speed, bn::size player_size, bn::rect box) : 
+        Player(bn::fixed start_x, bn::fixed start_y, bn::fixed start_speed, bn::size player_size) : 
             sprite(bn::sprite_items::dot.create_sprite(start_x, start_y)),
             speed(start_speed),
             size(player_size),
-            bounding_box(box) {
+            bounding_box(create_bounding_box(sprite, size)) {
         }
 
         
@@ -145,7 +145,7 @@ class Enemy {
             sprite(bn::sprite_items::square.create_sprite(start_x, start_y)),
             size(enemy_size),
             bounding_box(create_bounding_box(sprite, size)) {
-            }
+        }
 };
 
 int main() {
@@ -155,7 +155,7 @@ int main() {
     ScoreDisplay scoreDisplay = ScoreDisplay();
 
     // Create a player and initialize it
-    Player player = Player(44, 22, 1.5, PLAYER_SIZE, create_bounding_box(player.sprite, player.size));
+    Player player = Player(44, 22, 1.5, PLAYER_SIZE);
     
     // Create an enemy and initialize it
     Enemy enemy = Enemy(-50, 50, ENEMY_SIZE);
