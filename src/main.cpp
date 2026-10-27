@@ -10,6 +10,7 @@
 #include "common_fixed_8x16_font.h"
 #include "bn_sprite_items_dot.h"
 #include "bn_sprite_items_square.h"
+#include <bn_random.h>
 
 // Width and height of the the player bounding box
 static constexpr bn::size PLAYER_SIZE = {8, 8};
@@ -141,6 +142,7 @@ class Enemy {
         bn::fixed speed;
         bn::size size; // The width and height of the sprite
         bn::rect bounding_box; // The rectangle around the sprite for checking collision
+        bn::random random;
 
         Enemy(bn::fixed start_x, bn::fixed start_y, bn::fixed start_speed, bn::size enemy_size) :
             sprite(bn::sprite_items::square.create_sprite(start_x, start_y)),
@@ -165,6 +167,19 @@ class Enemy {
 
             bounding_box = create_bounding_box(sprite, size);
         }
+
+        void jump_to_random_position() {
+            int min_x = MIN_X + size.width() / 2;
+            int max_x = MAX_X - size.width() / 2;
+            int min_y = MIN_Y + size.height() / 2;
+            int max_y = MAX_Y - size.height() / 2;
+
+            sprite.set_x(random.get_int(min_x, max_x + 1));
+            sprite.set_y(random.get_int(min_y, max_y + 1));
+
+            bounding_box = create_bounding_box(sprite, size);
+
+        }
 };
 
 int main() {
@@ -177,7 +192,7 @@ int main() {
     Player player = Player(44, 22, 1.5, PLAYER_SIZE);
     
     // Create an enemy and initialize it
-    Enemy enemy = Enemy(-50, 50, 1.25, ENEMY_SIZE);
+    Enemy enemy = Enemy(-50, 50, 1.15, ENEMY_SIZE);
 
     while(true) {
         player.update();
@@ -188,6 +203,13 @@ int main() {
             scoreDisplay.resetScore();
             player.sprite.set_x(44);
             player.sprite.set_y(22);
+            player.bounding_box = create_bounding_box(player.sprite, player.size);
+
+            enemy.jump_to_random_position();
+
+            while(enemy.bounding_box.intersects(player.bounding_box)) {
+                enemy.jump_to_random_position();
+            }
         }
 
         // Update the scores and disaply them
