@@ -37,7 +37,7 @@ int main() {
     // Create a vector for multiple enemies
     bn::vector<Enemy, MAX_ENEMIES> enemies;
 
-    bn::fixed new_enemy = NEW_ENEMY_DELAY;
+    bn::fixed enemy_delay = NEW_ENEMY_DELAY;
 
     bn::random random;
 
@@ -47,14 +47,14 @@ int main() {
     while(true) {
         player.update();
 
-        if (new_enemy == 0) {
+        if (enemy_delay == 0) {
             bn::fixed new_y = random.get_fixed(MIN_Y, MAX_Y);
             bn::fixed new_x = random.get_fixed(MIN_X, MAX_X);
             bn::fixed new_speed = random.get_fixed(0.5, 1.5);
 
             enemies.push_back(Enemy(new_x, new_y, new_speed, ENEMY_SIZE));
 
-            new_enemy = NEW_ENEMY_DELAY;
+            enemy_delay = NEW_ENEMY_DELAY;
         }
 
         for (Enemy& e : enemies) {
@@ -82,7 +82,7 @@ int main() {
         // Update the scores and disaply them
         scoreDisplay.update();
 
-        new_enemy -= 1;
+        enemy_delay -= 1;
         bn::core::update();
     }
 }
