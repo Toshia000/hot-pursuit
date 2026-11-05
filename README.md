@@ -5,3 +5,6 @@ A project to explore classes in C++. See instructions [here](./instructions.md)
 
 ## Controls
 - **A** - boost for the player with 3 seconds cooldown
+
+---
+![GIF](gameplay.gif)
