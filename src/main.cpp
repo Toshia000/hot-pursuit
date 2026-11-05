@@ -12,6 +12,8 @@
 #include "bn_sprite_items_cube_3d.h"
 #include <bn_random.h>
 
+#include "create_bounding_box.h"
+
 // Width and height of the the player bounding box
 static constexpr bn::size PLAYER_SIZE = {8, 8};
 static constexpr bn::size ENEMY_SIZE = {8, 8};
@@ -34,18 +36,6 @@ static constexpr int HIGH_SCORE_Y = -70;
 
 // Maximum number of enemies
 static constexpr int MAX_ENEMIES = 10;
-
-/**
- * Creates a rectangle centered at a sprite's location with a given size.
- * sprite the sprite to center the box around
- * box_size the dimensions of the bounding box
- */
-bn::rect create_bounding_box(bn::sprite_ptr sprite, bn::size box_size) {
-    return bn::rect(sprite.x().round_integer(),
-                    sprite.y().round_integer(),
-                    box_size.width(),
-                    box_size.height());
-}
 
 /**
  * Displays a score and high score.
