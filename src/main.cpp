@@ -13,6 +13,7 @@
 #include <bn_random.h>
 
 #include "create_bounding_box.h"
+#include "Player.h"
 
 // Width and height of the the player bounding box
 static constexpr bn::size PLAYER_SIZE = {8, 8};
@@ -90,60 +91,6 @@ class ScoreDisplay {
         int high_score; // best core
         bn::vector<bn::sprite_ptr, MAX_SCORE_CHARS> score_sprites; // Sprites to display scores
         bn::sprite_text_generator text_generator; // Text generator for scores
-};
-
-class Player {
-    public:
-
-        bn::sprite_ptr sprite;
-        bn::fixed speed; // The speed of the player
-        bn::size size; // The width and height of the sprite
-        bn::rect bounding_box; // The rectangle around the sprite for checking collision
-
-        Player(bn::fixed start_x, bn::fixed start_y, bn::fixed start_speed, bn::size player_size) : 
-            sprite(bn::sprite_items::ball_3d.create_sprite(start_x, start_y)),
-            speed(start_speed),
-            size(player_size),
-            bounding_box(create_bounding_box(sprite, size)) {
-        }
-
-        
-
-        void update() {
-            if(bn::keypad::right_held()) {
-                sprite.set_x(sprite.x() + speed);
-            }
-            if(bn::keypad::left_held()) {
-                sprite.set_x(sprite.x() - speed);
-            }
-            if(bn::keypad::up_held()) {
-                sprite.set_y(sprite.y() - speed);
-            }
-            if(bn::keypad::down_held()) {
-                sprite.set_y(sprite.y() + speed);
-            }
-            // Ensure player will not go off the screen
-            int min_x = MIN_X + size.width() / 2;
-            int max_x = MAX_X - size.width() / 2;
-            int min_y = MIN_Y + size.height() / 2;
-            int max_y = MAX_Y - size.height() / 2;
-
-            if(sprite.x() < min_x) {
-                sprite.set_x(min_x);
-            }
-            if(sprite.x() > max_x) {
-                sprite.set_x(max_x);
-            }
-            if(sprite.y() < min_y) {
-                sprite.set_y(min_y);
-            }
-            if(sprite.y() > max_y) {
-                sprite.set_y(max_y);
-            }
-
-            bounding_box = create_bounding_box(sprite, size);
-        }
-
 };
 
 class Enemy {
