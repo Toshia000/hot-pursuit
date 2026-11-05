@@ -13,7 +13,7 @@
 #include <bn_random.h>
 
 #include "create_bounding_box.h"
-#include "Player.h"
+#include "Enemy.h"
 #include "ScoreDisplay.h"
 
 // Width and height of the the player bounding box
@@ -35,53 +35,6 @@ static constexpr int HIGH_SCORE_Y = -70;
 
 // Maximum number of enemies
 static constexpr int MAX_ENEMIES = 10;
-
-class Enemy {
-    public:
-
-        bn::sprite_ptr sprite;
-        bn::fixed speed;
-        bn::size size; // The width and height of the sprite
-        bn::rect bounding_box; // The rectangle around the sprite for checking collision
-        bn::random random;
-
-        Enemy(bn::fixed start_x, bn::fixed start_y, bn::fixed start_speed, bn::size enemy_size) :
-            sprite(bn::sprite_items::cube_3d.create_sprite(start_x, start_y)),
-            speed(start_speed),
-            size(enemy_size),
-            bounding_box(create_bounding_box(sprite, size)) {
-        }
-
-        void update(Player& player) {
-            if(sprite.x() <= player.sprite.x()) {
-                sprite.set_x(sprite.x() + speed);
-            }
-            if(sprite.x() >= player.sprite.x()) {
-                sprite.set_x(sprite.x() - speed);
-            }
-            if(sprite.y() <= player.sprite.y()) {
-                sprite.set_y(sprite.y() + speed);
-            }
-            if(sprite.y() >= player.sprite.y()) {
-                sprite.set_y(sprite.y() - speed);
-            }
-
-            bounding_box = create_bounding_box(sprite, size);
-        }
-
-        void jump_to_random_position() {
-            int min_x = MIN_X + size.width() / 2;
-            int max_x = MAX_X - size.width() / 2;
-            int min_y = MIN_Y + size.height() / 2;
-            int max_y = MAX_Y - size.height() / 2;
-
-            sprite.set_x(random.get_int(min_x, max_x + 1));
-            sprite.set_y(random.get_int(min_y, max_y + 1));
-
-            bounding_box = create_bounding_box(sprite, size);
-
-        }
-};
 
 int main() {
     bn::core::init();
