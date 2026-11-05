@@ -1,5 +1,4 @@
 #include <bn_core.h>
-#include <bn_display.h>
 #include <bn_rect.h>
 #include <bn_size.h>
 #include <bn_sprite_ptr.h>
@@ -13,18 +12,6 @@
 static constexpr bn::size PLAYER_SIZE = {8, 8};
 static constexpr bn::size ENEMY_SIZE = {8, 8};
 
-static constexpr int MIN_Y = -bn::display::height() / 2;
-static constexpr int MAX_Y = bn::display::height() / 2;
-static constexpr int MIN_X = -bn::display::width() / 2;
-static constexpr int MAX_X = bn::display::width() / 2;
-
-// Score location
-static constexpr int SCORE_X = 70;
-static constexpr int SCORE_Y = -70;
-
-// High score location
-static constexpr int HIGH_SCORE_X = -70;
-static constexpr int HIGH_SCORE_Y = -70;
 
 // Maximum number of enemies
 static constexpr int MAX_ENEMIES = 10;
