@@ -9,6 +9,8 @@ class Player {
         bn::fixed speed; // The speed of the player
         bn::size size; // The width and height of the sprite
         bn::rect bounding_box; // The rectangle around the sprite for checking collision
+        int dash_timer;
+        int dash_cooldown;
 
         Player(bn::fixed start_x, bn::fixed start_y, bn::fixed start_speed, bn::size player_size);
 

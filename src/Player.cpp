@@ -13,21 +13,40 @@ Player::Player(bn::fixed start_x, bn::fixed start_y, bn::fixed start_speed, bn::
     sprite(bn::sprite_items::ball_3d.create_sprite(start_x, start_y)),
     speed(start_speed),
     size(player_size),
-    bounding_box(create_bounding_box(sprite, size)) {
+    bounding_box(create_bounding_box(sprite, size)),
+    dash_timer(0),
+    dash_cooldown(0)
+    {
 }
 
 void Player::update() {
+    if(dash_cooldown > 0) {
+        dash_cooldown--;
+    }
+
+    if(bn::keypad::a_pressed() && dash_cooldown == 0) {
+        dash_timer = 25;
+        dash_cooldown = 180;
+    }
+
+    bn::fixed movement_speed = speed;
+
+    if(dash_timer > 0) {
+        movement_speed = speed * 3;
+        dash_timer--;
+    }
+
     if(bn::keypad::right_held()) {
-      sprite.set_x(sprite.x() + speed);
+      sprite.set_x(sprite.x() + movement_speed);
     }
     if(bn::keypad::left_held()) {
-        sprite.set_x(sprite.x() - speed);
+        sprite.set_x(sprite.x() - movement_speed);
     }
     if(bn::keypad::up_held()) {
-        sprite.set_y(sprite.y() - speed);
+        sprite.set_y(sprite.y() - movement_speed);
     }
     if(bn::keypad::down_held()) {
-        sprite.set_y(sprite.y() + speed);
+        sprite.set_y(sprite.y() + movement_speed);
     }
     // Ensure player will not go off the screen
     int min_x = MIN_X + size.width() / 2;
