@@ -8,8 +8,8 @@
 #include <bn_sprite_text_generator.h>
 
 #include "common_fixed_8x16_font.h"
-#include "bn_sprite_items_dot.h"
-#include "bn_sprite_items_square.h"
+#include "bn_sprite_items_ball_3d.h"
+#include "bn_sprite_items_cube_3d.h"
 #include <bn_random.h>
 
 // Width and height of the the player bounding box
@@ -111,7 +111,7 @@ class Player {
         bn::rect bounding_box; // The rectangle around the sprite for checking collision
 
         Player(bn::fixed start_x, bn::fixed start_y, bn::fixed start_speed, bn::size player_size) : 
-            sprite(bn::sprite_items::dot.create_sprite(start_x, start_y)),
+            sprite(bn::sprite_items::ball_3d.create_sprite(start_x, start_y)),
             speed(start_speed),
             size(player_size),
             bounding_box(create_bounding_box(sprite, size)) {
@@ -166,7 +166,7 @@ class Enemy {
         bn::random random;
 
         Enemy(bn::fixed start_x, bn::fixed start_y, bn::fixed start_speed, bn::size enemy_size) :
-            sprite(bn::sprite_items::square.create_sprite(start_x, start_y)),
+            sprite(bn::sprite_items::cube_3d.create_sprite(start_x, start_y)),
             speed(start_speed),
             size(enemy_size),
             bounding_box(create_bounding_box(sprite, size)) {
