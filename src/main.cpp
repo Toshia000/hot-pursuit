@@ -37,7 +37,9 @@ int main() {
     // Create a vector for multiple enemies
     bn::vector<Enemy, MAX_ENEMIES> enemies;
 
-    bn::fixed enemy_delay = NEW_ENEMY_DELAY;
+    int enemy_delay = NEW_ENEMY_DELAY;
+
+    bool delete_enemies = false;
 
     bn::random random;
 
@@ -47,7 +49,7 @@ int main() {
     while(true) {
         player.update();
 
-        if (enemy_delay == 0) {
+        if (enemy_delay == 0 && enemies.size() < MAX_ENEMIES) {
             bn::fixed new_y = random.get_fixed(MIN_Y, MAX_Y);
             bn::fixed new_x = random.get_fixed(MIN_X, MAX_X);
             bn::fixed new_speed = random.get_fixed(0.5, 1.5);
@@ -68,14 +70,20 @@ int main() {
                 player.bounding_box = create_bounding_box(player.sprite, player.size);
     
                 e.jump_to_random_position();
-
-                while(enemies.size() > 1) {
-                    enemies.pop_back();
-                }
     
                 while(e.bounding_box.intersects(player.bounding_box)) {
                     e.jump_to_random_position();
                 }
+
+                delete_enemies = true;
+            }
+        }
+
+        while (delete_enemies && enemies.size() > 1) {
+            enemies.pop_back();
+
+            if (enemies.size() == 1) {
+                delete_enemies = false;
             }
         }
 
